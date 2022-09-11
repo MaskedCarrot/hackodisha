@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
@@ -7,13 +7,20 @@ import { detectGesture } from "./detectGesture";
 import { gestureState } from "./gestureState";
 import { draw } from "./draw";
 import SmartWebcam from "./SmartWebcam";
+import ScreenRecording from "./ScreenRecording";
 
 function App() {
   return (
-    <div className="App" color='red'>
-      <SmartWebcam >
-        
-      </SmartWebcam>
+    <div className="App" color="red">
+      <ScreenRecording
+        screen={true}
+        audio={true}
+        video={false}
+        downloadRecordingPath="Screen_Recording_Demo"
+        downloadRecordingType="mp4"
+        emailToSupport="vishwasmodi220@gmail.com"
+      ></ScreenRecording>
+      <SmartWebcam></SmartWebcam>
     </div>
   );
 }
