@@ -92,7 +92,7 @@ const SmartWebcam = () => {
         <canvas ref={canvasRef1}></canvas>
         <canvas ref={canvasRef2}></canvas>
       </div>
-      <Webcam class="camera" ref={webcamRef} style={{ flex: 1 }}></Webcam>
+      <Webcam class="camera" ref={webcamRef} style={{ flex: 1 , borderRadius:'3%', marginTop:'20px'}}></Webcam>
     </div>
   );
 };

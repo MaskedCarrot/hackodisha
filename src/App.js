@@ -11,7 +11,7 @@ import ScreenRecording from "./ScreenRecording";
 
 function App() {
   return (
-    <div className="App" color="red">
+    <div className="App" color="red" style={{margin:'20px'}}>
       <ScreenRecording
         screen={true}
         audio={true}

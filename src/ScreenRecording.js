@@ -58,8 +58,12 @@ const ScreenRecording = ({
       }
     };
     return (
-      <Row>
-        <Col span="12" style={{ lineHeight: "24px" }}>
+      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'-40px', marginBottom:'-10px'}}>
+        <div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+        <div>
+        <img src="https://i.pinimg.com/originals/c8/23/69/c823695ab9d430a817461a62ae993b9f.png" width='110' height='90'/>
+        </div>
+        <div>
           {status && status !== "stopped" && (
             <Text>
               Screen Recording Status: {status && status.toUpperCase()}
@@ -76,9 +80,10 @@ const ScreenRecording = ({
               }}
             />
           )}
-        </Col>
-        <Col span="12" style={{ textAlign: "right" }}>
-          {status && status !== "recording" && (
+        </div>
+        </div>
+        <div>
+        {status && status !== "recording" && (
             <button
               size="small"
               onClick={startRecording}
@@ -136,8 +141,8 @@ const ScreenRecording = ({
               Email To Support
             </button>
           )}
-        </Col>
-      </Row>
+        </div>
+      </div>
     );
   };
   return (
