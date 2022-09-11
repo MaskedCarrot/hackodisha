@@ -67,7 +67,7 @@ const SmartWebcam = () => {
 
                 if (state === gestureState.SWIPE_LEFT || state === gestureState.SWIPE_RIGHT) {
                     if (timer > 50) {
-                        changeSlide(ctx2, slideArray, slidePtr, direction)
+                        HandleSlides(ctx2, slideArray, slidePtr, direction)
                         timer = 0
                     }
                 }
