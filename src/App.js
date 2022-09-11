@@ -3,11 +3,18 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
 import { drawHand } from "./utilities";
+import { detectGesture } from "./detectGesture";
+import { gestureState } from "./gestureState";
+import { draw } from "./draw";
 
 function App() {
 
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  let prevPointerCoordinates = [0, 0, 0]
+  let ctx = null
+  let canvasData = null
+  let timer = 0
 
   const runHandpose = async () => {
     const net = await handpose.load();
@@ -15,10 +22,12 @@ function App() {
     //  Loop and detect hands
     setInterval(() => {
       detect(net);
-    }, 1000);
+    }, 1);
   };
 
   const detect = async (net) => {
+    timer += 1
+
     // Check data is available
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -40,11 +49,42 @@ function App() {
 
       // Make Detections
       const hand = await net.estimateHands(video);
-      console.log(hand);
+      // console.log(hand);
 
       // Draw mesh
-      const ctx = canvasRef.current.getContext("2d");
-      drawHand(hand, ctx);
+      // const ctx = canvasRef.current.getContext("2d");
+      // drawHand(hand, ctx);
+
+
+      const state = detectGesture(hand);
+
+      if (hand.length > 0) {
+        const currentPointerCoordinates = hand[0].landmarks[8]
+        if (ctx === null) {
+          ctx = canvasRef.current.getContext("2d");
+          console.log("nice")
+        }
+
+        if(state === gestureState.SWIPE_LEFT || state === gestureState.SWIPE_RIGHT)
+        {
+          console.log(state)
+          console.log(timer)
+          if(timer > 50)
+          {  
+            // call function
+
+            console.log("Calling Funtion")
+            timer = 0
+          }
+        }
+        else
+        {
+          draw(currentPointerCoordinates, prevPointerCoordinates, state, ctx)
+          prevPointerCoordinates = currentPointerCoordinates
+        }
+      }
+      
+
     }
   };
 
@@ -56,6 +96,7 @@ function App() {
       <header className="App-header" />
       <Webcam
           ref={webcamRef}
+          // mirrored = {true}
           style={{
             position: "absolute",
             marginLeft: "auto",
@@ -81,6 +122,7 @@ function App() {
             zindex: 9,
             width: 640,
             height: 480,
+            rotate: 90
           }}
         />
     </div>
