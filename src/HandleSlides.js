@@ -1,0 +1,1 @@
+export const HandleSlides = (ctx, direction, ptr)

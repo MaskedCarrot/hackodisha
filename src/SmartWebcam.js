@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import Webcam from "react-webcam";
-import * as tf from "@tensorflow/tfjs";
 import * as handpose from "@tensorflow-models/handpose";
-import { drawHand } from "./utilities";
 import { detectGesture } from "./detectGesture";
 import { gestureState } from "./gestureState";
 import { draw } from "./draw";
@@ -16,8 +14,8 @@ const SmartWebcam = () => {
     const canvasRef2 = useRef(null);
     let prevPointerCoordinates = [0, 0, 0]
     let ctx = null
-    let canvasData = null
     let timer = 0
+    let slidePtr = 0;
 
     const runHandpose = async () => {
         const net = await handpose.load();
@@ -65,16 +63,11 @@ const SmartWebcam = () => {
                 const currentPointerCoordinates = hand[0].landmarks[8]
                 if (ctx === null) {
                     ctx = canvasRef1.current.getContext("2d");
-                    console.log("nice")
                 }
 
                 if (state === gestureState.SWIPE_LEFT || state === gestureState.SWIPE_RIGHT) {
-                    console.log(state)
-                    console.log(timer)
                     if (timer > 50) {
-                        // call function
-
-                        console.log("Calling Funtion")
+                        changeSlide(ctx2, slideArray, slidePtr, direction)
                         timer = 0
                     }
                 }
@@ -97,7 +90,6 @@ const SmartWebcam = () => {
         <div style={{ display: "flex" }}>
             <div style={{ flex: 1, background: "black" }}>
                 <canvas ref={canvasRef1}>
-
                 </canvas>
                 <canvas ref={canvasRef2}>
 
@@ -105,7 +97,7 @@ const SmartWebcam = () => {
             </div>
             <Webcam
                 ref={webcamRef}
-                style={{flex: 1}}
+                style={{ flex: 1 }}
             >
 
             </Webcam>
